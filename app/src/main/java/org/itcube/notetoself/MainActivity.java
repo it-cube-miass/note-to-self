@@ -7,18 +7,34 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
 
-    Note tempNote = new Note();
+    ArrayList<Note> notes = new ArrayList<>();
+    RecyclerView recyclerView;
+    NoteAdapter adapter;
 
     public void createNewNote(Note note) {
-        tempNote = note;
+        notes.add(note);
+        adapter.notifyDataSetChanged();
+    }
+
+    public void showNote(int index) {
+        DialogShowNote dialog = new DialogShowNote();
+        dialog.sendNoteSelected(notes.get(index));
+        dialog.show(getSupportFragmentManager(), "");
     }
 
     @Override
@@ -37,15 +53,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogShowNote dialog = new DialogShowNote();
-                dialog.sendNoteSelected(tempNote);
-                dialog.show(getSupportFragmentManager(), "123");
-            }
-        });
+
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        adapter = new NoteAdapter(this, notes);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
