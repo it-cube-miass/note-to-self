@@ -41,13 +41,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ListItemHolder
 
         String statusText = "";
         if (note.isIdea()) {
-            statusText += mainActivity.getString(R.string.idea_text);
+            statusText += mainActivity.getString(R.string.idea_text) + " ";
         }
         if (note.isTodo()) {
-            statusText += mainActivity.getString(R.string.todo_text);
+            statusText += mainActivity.getString(R.string.todo_text) + " ";
         }
         if (note.isImportant()) {
-            statusText += mainActivity.getString(R.string.important_text);
+            statusText += mainActivity.getString(R.string.important_text) + " ";
         }
         holder.status.setText(statusText);
     }
