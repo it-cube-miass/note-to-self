@@ -51,7 +51,7 @@ public class DialogShowNote extends DialogFragment {
             }
         });
 
-        builder.setView(dialogView).setMessage("Your Note");
+        builder.setView(dialogView).setMessage(getResources().getString(R.string.your_note));
         return builder.create();
 
     }
